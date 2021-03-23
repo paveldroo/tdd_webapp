@@ -30,7 +30,8 @@ class NewVisitorTest(unittest.TestCase):
 
         # The page updates again, and now shows both items on his list
 
-        # User wonders whether the site will remember his list.Then he sees that the site has generated a unique URL for him.
+        # User wonders whether the site will remember his list.Then he sees that
+        # the site has generated a unique URL for him.
 
         # User visites that URL - his to-do list is still there
 
