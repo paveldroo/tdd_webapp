@@ -83,11 +83,9 @@ target/
 *.log
 *.pyc
 local_settings.py
-constants.py
 
 
 ### Databases ###
-db.sqlite3
 
 
 ### PyCharm ###
