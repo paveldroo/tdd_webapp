@@ -95,3 +95,4 @@ local_settings.py
 ### Node Modules ###
 node_modules
 
+*.pem
