@@ -1,13 +1,10 @@
 import random
 
-from django.conf import settings
 from dotenv import load_dotenv
 from fabric.api import cd, env, local, run
-from fabric.context_managers import prefix
 from fabric.contrib.files import append, exists
 
 REPO_URL = 'https://github.com/paveldroo/tdd_webapp.git'
-VENV_ACTIVATION_PREFIX = 'source .venv/bin/activate'
 
 
 def deploy():
@@ -33,12 +30,11 @@ def _get_latest_source():
 def _update_virtualenv():
     if not exists('.venv/bin/pip'):
         run(f'python3.8 -m venv .venv')
-    with prefix(VENV_ACTIVATION_PREFIX):
-        run('pip install -r requirements.txt')
+    run('./.venv/bin/pip install -r requirements.txt')
 
 
 def _create_or_update_dotenv():
-    load_dotenv(settings.BASE_DIR / '.env')
+    load_dotenv('.env')
     append('.env', f'SITENAME={env.host}')
     current_contents = run('cat .env')
     if 'SECRET_KEY' not in current_contents:
@@ -49,10 +45,8 @@ def _create_or_update_dotenv():
 
 
 def _update_static_files():
-    with prefix(VENV_ACTIVATION_PREFIX):
-        run('./manage.py collectstatic --noinput')
+    run('./.venv/bin/python manage.py collectstatic --noinput')
 
 
 def _update_database():
-    with prefix(VENV_ACTIVATION_PREFIX):
-        run('./manage.py migrate --noinput')
+    run('./.venv/bin/python manage.py migrate --noinput')
