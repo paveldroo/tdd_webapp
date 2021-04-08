@@ -1,11 +1,14 @@
 [Unit]
-Description=Gunicorn server for SITENAME
+Description=Gunicorn server for DOMAIN
 
 [Service]
 Restart=on-failure
 User=ubuntu
-WorkingDirectory=/var/www/SITENAME/staging/source
-ExecStart=/var/www/SITENAME/staging/.venv/bin/gunicorn --bind unix:/tmp/SITENAME.socket SITENAME.wsgi:application
+WorkingDirectory=/var/www/DOMAIN
+EnvironmentFile=/var/www/DOMAIN/.env
+
+
+ExecStart=/var/www/DOMAIN/.venv/bin/gunicorn --bind unix:/tmp/DOMAIN.socket tdd_webapp.wsgi:application
 
 [Install]
 WantedBy=multi-user.target
