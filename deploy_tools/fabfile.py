@@ -9,13 +9,15 @@ REPO_URL = 'https://github.com/paveldroo/tdd_webapp.git'
 
 def deploy():
     site_folder = f'/var/www/{env.host}'
-    run(f'sudo mkdir -p {site_folder} && sudo chown -R $(whoami):$(whoami) {site_folder}')
+    if not exists(site_folder):
+        run(f'sudo mkdir -p {site_folder} && sudo chown -R $(whoami):$(whoami) {site_folder}')
     with cd(site_folder):
         _get_latest_source()
         _update_virtualenv()
         _create_or_update_dotenv()
         _update_static_files()
         _update_database()
+        _reload_service()
 
 
 def _get_latest_source():
@@ -50,3 +52,7 @@ def _update_static_files():
 
 def _update_database():
     run('./.venv/bin/python manage.py migrate --noinput')
+
+
+def _reload_service():
+    run(f'sudo systemctl restart gunicorn-{env.host}')
