@@ -95,5 +95,5 @@ local_settings.py
 node_modules
 
 *.pem
-deploy.sh
+*.sh
 db.sqlite3
