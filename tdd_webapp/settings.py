@@ -74,6 +74,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'tdd_webapp.wsgi.application'
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler'
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console']
+        }
+    },
+    'root': {'level': 'INFO'}
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
