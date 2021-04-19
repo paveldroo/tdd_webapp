@@ -45,8 +45,9 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = 'accounts.ListUser'
+
 AUTHENTICATION_BACKENDS = [
-    'accounts.authentication.PasswordlessAuthenticationBackend'
+    'accounts.authentication.PasswordlessAuthenticationBackend',
 ]
 
 MIDDLEWARE = [
