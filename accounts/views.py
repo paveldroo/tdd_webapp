@@ -1,6 +1,7 @@
 import os
 
 from django.contrib import auth, messages
+from django.contrib.auth import logout
 from django.core.mail import send_mail
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -27,4 +28,9 @@ def login(request):
     user = auth.authenticate(request, uid=request.GET.get('token'))
     if user:
         auth.login(request, user)
+    return redirect('/')
+
+
+def logout_view(request):
+    logout(request)
     return redirect('/')
