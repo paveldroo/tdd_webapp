@@ -33,7 +33,6 @@ class LoginTest(FunctionalTest):
                     print('getting msg', i)
                     _, lines, _ = inbox.retr(i)
                     lines = [l.decode('utf8') for l in lines]
-                    print(lines)
                     if f'Subject: {subject}' in lines:
                         email_id = i
                         body = '\n'.join(lines)
