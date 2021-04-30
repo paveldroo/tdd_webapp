@@ -97,3 +97,4 @@ node_modules
 *.pem
 *.sh
 db.sqlite3
+functional_tests/screendumps

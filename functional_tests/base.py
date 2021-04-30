@@ -8,7 +8,7 @@ from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 
 MAX_WAIT = 10
-SCREEN_DUMP_LOCATION = settings.BASE_DIR / 'screendumps'
+SCREEN_DUMP_LOCATION = settings.BASE_DIR / 'functional_tests/screendumps'
 
 
 def wait(fn):
