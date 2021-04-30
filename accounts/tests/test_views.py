@@ -1,3 +1,4 @@
+import os
 from unittest.mock import patch, call
 
 from django.test import TestCase
@@ -16,7 +17,7 @@ class SendLoginEmailViewTest(TestCase):
         self.assertEqual(mock_send_mail.called, True)
         (subject, body, from_email, to_list), kwargs = mock_send_mail.call_args
         self.assertEqual(subject, 'Your login link for Superlists')
-        self.assertEqual(from_email, 'noreply@superlists')
+        self.assertEqual(from_email, os.getenv('EMAIL_HOST_USER'))
         self.assertEqual(to_list, ['edith@example.com'])
 
     def test_adds_success_message(self):
@@ -46,8 +47,8 @@ class LoginViewTest(TestCase):
         self.assertRedirects(response, '/')
 
     def test_calls_authenticate_with_uid_from_get_request(self, mock_auth):
-        self.client.get('/accounts/login?token=abcd123')
-        self.assertEqual(mock_auth.authenticate.call_args, call(uid='abcd123'))
+        response = self.client.get('/accounts/login?token=abcd123')
+        self.assertEqual(mock_auth.authenticate.call_args, call(response.wsgi_request, uid='abcd123'))
 
     def test_calls_auth_login_with_user_if_there_is_one(self, mock_auth):
         response = self.client.get('/accounts/login?token=abcd123')
