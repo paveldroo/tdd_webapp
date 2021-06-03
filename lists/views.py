@@ -27,3 +27,10 @@ def new_list(request):
         return redirect(list_)
     else:
         return render(request, 'home.html', {'form': form})
+
+
+def share_list(request, list_id):
+    email = request.POST.get('sharee')
+    list_ = List.objects.get(id=list_id)
+    list_.shared_with.add(email)
+    return redirect(list_)

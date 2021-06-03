@@ -4,7 +4,22 @@
 {% block table %}
     <table id='id_list_table'>
         {% for item in list.item_set.all %}
-        <tr><td>{{ forloop.counter }}: {{ item.text }}</td></tr>
+            <tr>
+                <td>{{ forloop.counter }}: {{ item.text }}</td>
+            </tr>
         {% endfor %}
     </table>
+    <div>
+        <form method='POST' action={% url 'share_list' list.id %}>
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="email"
+                       class="form-control"
+                       name='sharee'
+                       id="sharee"
+                       placeholder="your-friend@example.com">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
 {% endblock %}

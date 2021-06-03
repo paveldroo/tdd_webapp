@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.utils.html import escape
 
+from accounts.models import User
 from lists.forms import ItemForm, EMPTY_ITEM_ERROR, DUPLICATE_ITEM_ERROR, ExistingListItemForm
 from lists.models import Item, List
 
@@ -128,3 +129,16 @@ class NewListTest(TestCase):
     def test_for_invalid_input_passes_form_to_template(self):
         response = self.client.post('/lists/new', data={'text': ''})
         self.assertIsInstance(response.context['form'], ItemForm)
+
+
+class ShareListTest(TestCase):
+    def test_post_redirects_to_lists_page(self):
+        list_ = List.objects.create()
+        response = self.client.post(f'/lists/{list_.id}/share')
+        self.assertRedirects(response, f'/lists/{list_.id}/')
+
+    def test_share_list(self):
+        list_ = List.objects.create()
+        user = User.objects.create(email='oniciferous@example.com')
+        self.client.post(f'/lists/{list_.id}/share', data={'sharee': user.email})
+        self.assertEqual(list(list_.shared_with.all()), [user])

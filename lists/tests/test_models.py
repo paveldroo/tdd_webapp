@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
+from accounts.models import User
 from lists.models import Item, List
 
 
@@ -53,3 +54,9 @@ class ListModelTest(TestCase):
     def test_get_absolute_url(self):
         list_ = List.objects.create()
         self.assertEqual(list_.get_absolute_url(), f'/lists/{list_.id}/')
+
+    def test_list_has_shared_with_add_method(self):
+        list_ = List.objects.create()
+        user = User.objects.create(email='oniciferous@example.com')
+        list_.shared_with.add(user.email)
+        self.assertEqual(list(list_.shared_with.all()), [user])
